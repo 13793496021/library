@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libraryms.mapper.BookMapper">
+    <resultMap id="BaseResultMap" type="Book">
+        <id column="book_id" jdbcType="INTEGER" property="book_id"/>
+        <result column="book_name" jdbcType="VARCHAR" property="book_name"/>
+        <result column="book_write" jdbcType="VARCHAR" property="book_write"/>
+        <result column="book_type" jdbcType="VARCHAR" property="book_type"/>
+        <result column="book_number" jdbcType="INTEGER" property="book_number"/>
+        <result column="book_identifier" jdbcType="VARCHAR" property="book_identifier"/>
+        <result column="book_introduction" jdbcType="VARCHAR" property="book_introduction"/>
+        <result column="write_introduction" jdbcType="VARCHAR" property="write_introduction"/>
+    </resultMap>
+    <!--根据用户名密码查询用户信息-->
+    <!--application.yml 中通过 type-aliases-package 指定了实体类的为了，因此-->
+    <select id="getByBooks" resultMap="BaseResultMap" parameterType="Book">
+        select book_id, book_name, book_write, book_type, book_number, book_identifier from book
+    </select>
+    <select id="selectBooks" resultMap="BaseResultMap" parameterType="Book">
+        select book_id, book_name, book_write, book_type, book_number, book_identifier
+        from book
+        where book_name = #{book_name,jdbcType=VARCHAR}
+           or book_write = #{book_write,jdbcType=VARCHAR}
+           or book_type = #{book_type,jdbcType=VARCHAR}
+           or book_identifier = #{book_identifier,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertBook" parameterType="Book">
+        insert into book
+            (book_name, book_write, book_type, book_number, book_identifier)
+            values (#{book_name,jdbcType=VARCHAR},#{book_write,jdbcType=VARCHAR},#{book_type,jdbcType=VARCHAR},#{book_number,jdbcType=INTEGER},#{book_identifier,jdbcType=VARCHAR})
+    </insert>
+    <select id="getByBookId" resultMap="BaseResultMap" parameterType="Book">
+        select book_id, book_name, book_write, book_type, book_number, book_identifier
+        from book
+        where book_id = #{book_id,jdbcType=INTEGER}
+    </select>
+    <select id="getByBookIdOrName" resultMap="BaseResultMap" parameterType="Book">
+        select book_id, book_name, book_write, book_type, book_number, book_identifier
+        from book
+        where book_name = #{book_name,jdbcType=VARCHAR}
+          or book_id = #{book_id,jdbcType=INTEGER}
+    </select>
+    <update id="updateBook" parameterType="Book">
+        update book
+        set book_name = #{book_name,jdbcType=VARCHAR},book_write = #{book_write,jdbcType=VARCHAR},
+            book_type = #{book_type,jdbcType=VARCHAR},book_number = #{book_number,jdbcType=INTEGER},
+            book_identifier = #{book_identifier,jdbcType=VARCHAR}
+        where book_id = #{book_id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteBook" parameterType="Book">
+        delete from book where book_id = #{book_id,jdbcType=INTEGER}
+    </delete>
+    <select id="getListBook" resultMap="BaseResultMap" parameterType="Book">
+        select book_id, book_name, book_write, book_type, book_number, book_identifier, book_introduction, write_introduction
+        from book
+        where book_id = #{book_id,jdbcType=INTEGER}
+    </select>
+
+
+
+</mapper>

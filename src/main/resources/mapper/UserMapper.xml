@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libraryms.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="flag" jdbcType="TINYINT" property="flag"/>
+    </resultMap>
+    <!--根据用户名密码查询用户信息-->
+    <!--application.yml 中通过 type-aliases-package 指定了实体类的为了，因此-->
+    <select id="getByUserNameAndPassword" resultType="User" parameterType="User">
+        select *
+        from user
+        where username = #{username,jdbcType=VARCHAR}
+          and password = #{password,jdbcType=VARCHAR}
+    </select>
+    <select id="getByUserName" resultType="User" parameterType="User">
+        select *
+        from user
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertUser" parameterType="User">
+        insert into user
+            (username, password, email)
+        values (#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR})
+    </insert>
+    <update id="updatePassword" parameterType="User">
+        update user
+        set password = #{password,jdbcType=VARCHAR}
+        where username = #{username,jdbcType=VARCHAR}
+    </update>
+    <select id="getByUserNameAndEmail" resultType="User" parameterType="User">
+        select *
+        from user
+        where username = #{username,jdbcType=VARCHAR}
+        and email = #{email,jdbcType=VARCHAR}
+    </select>
+    <select id="getByUserList" parameterType="User" resultMap="BaseResultMap">
+        select *
+        from user
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>
